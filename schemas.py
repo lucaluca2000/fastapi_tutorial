@@ -9,8 +9,7 @@ class Article(BaseModel):
     published: bool
     class Config():
         orm_mode = True
-    # user_id = Column(Integer,ForeignKey('users.id'))
-    # user = relationship('DbUser', back_populates='items')
+
 
 class UserBase(BaseModel):
     username: str
