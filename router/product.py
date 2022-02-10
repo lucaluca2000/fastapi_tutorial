@@ -1,6 +1,5 @@
-from itertools import product
-from math import prod
-from fastapi import APIRouter
+from typing import Optional, List
+from fastapi import APIRouter, Header
 from fastapi.responses import Response,HTMLResponse,PlainTextResponse
 router = APIRouter(
     prefix='/product',
@@ -16,6 +15,17 @@ def get_all_products():
     data = " ".join(products)
     return Response(content=data,media_type='text/html')
 
+@router.get('/withheader')
+def get_products(
+    response: Response,
+    custom_header: Optional[List[str]] = Header(None)
+    ):
+    if custom_header:
+        response.headers['custom_response_header'] = " , ".join(custom_header)
+    return {
+      'data': products,
+      'custom_header': custom_header
+  }
 
 @router.get('/{id}',responses={
    200:{
