@@ -4,7 +4,22 @@ from exceptions import StoryException
 from router import  blog_get, blog_post, user, article, product
 from db import models,database
 from fastapi.responses import JSONResponse, PlainTextResponse
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI()
+
+origins= [
+    "http://localhost:8000",
+    "http://localhost:3000",
+    "http://localhost",
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins = origins,
+    allow_credentials = True,
+    allow_methods = ["*"],
+    allow_headers = ["*"],
+)
 app.include_router(user.router)
 app.include_router(article.router)
 app.include_router(product.router)

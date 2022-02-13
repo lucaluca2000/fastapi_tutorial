@@ -1,5 +1,5 @@
 from typing import Optional, List
-from fastapi import APIRouter, Header
+from fastapi import APIRouter, Form, Header, Cookie
 from fastapi.responses import Response,HTMLResponse,PlainTextResponse
 router = APIRouter(
     prefix='/product',
@@ -7,24 +7,27 @@ router = APIRouter(
 )
 
 products=['watch', 'camera', 'phone']
-
+  
 @router.get('/all')
-
 def get_all_products():
     # return products
     data = " ".join(products)
-    return Response(content=data,media_type='text/html')
+    response = Response(content=data,media_type='text/html')
+    response.set_cookie(key="fakesession", value="fake-cookie-session-value")
+    return response
 
 @router.get('/withheader')
 def get_products(
     response: Response,
-    custom_header: Optional[List[str]] = Header(None)
+    custom_header: Optional[List[str]] = Header(None),
+    fakesession: Optional[str] = Cookie(None)
     ):
     if custom_header:
         response.headers['custom_response_header'] = " , ".join(custom_header)
     return {
       'data': products,
-      'custom_header': custom_header
+      'custom_header': custom_header,
+      'my_cookie': fakesession
   }
 
 @router.get('/{id}',responses={
@@ -67,3 +70,10 @@ def get_product(id: int):
             <div class= "product">{product}</div>
         """
         return HTMLResponse(content=out, media_type="text/html")
+
+
+
+@router.post('/new')
+def create_product(name: str = Form(...)):
+    products.append(name)
+    return products
