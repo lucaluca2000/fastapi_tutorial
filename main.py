@@ -1,7 +1,9 @@
+from multiprocessing import AuthenticationError
 from fastapi.exceptions import HTTPException
 from fastapi import FastAPI, Request
 from exceptions import StoryException
 from router import  blog_get, blog_post, user, article, product
+from auth import authentication
 from db import models,database
 from fastapi.responses import JSONResponse, PlainTextResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -20,6 +22,7 @@ app.add_middleware(
     allow_methods = ["*"],
     allow_headers = ["*"],
 )
+app.include_router(authentication.router)
 app.include_router(user.router)
 app.include_router(article.router)
 app.include_router(product.router)
