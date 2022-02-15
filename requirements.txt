@@ -4,4 +4,5 @@ bcrypt
 python-multipart==0.0.5
 SQLAlchemy==1.4.31
 uvicorn==0.17.0
-python-jose=3.3.0
+python-jose==3.3.0
+aiofiles==0.8.0
