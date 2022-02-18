@@ -33,6 +33,7 @@ def get_one_user(id: int, db: Session = Depends(get_db), current_user: UserBase 
     'data':  db_user.get_user(db, id),
     'current_user': current_user
     } 
+    
 # Update user 
 @router.post('/{id}/update')
 def update_user(id: int, request: UserBase, db: Session = Depends(get_db), current_user: UserBase = Depends(get_current_user)):

@@ -17,8 +17,8 @@ async def root():
 
 
 fake_db = [{'item_name': 'alexnet'},{ 'item_name' : 'resnet'},{'item_name' : 'lenet'}]
-@router.get('/all/{id}',status_code=status.HTTP_200_OK)
 
+@router.get('/all/{id}',status_code=status.HTTP_200_OK)
 def get_all_blogs(page = 1, page_size: Optional[int] = None, req_parameter: dict = Depends(required_functionality)):
   return {'message': f'All {page_size} blogs on page {page}', 'req': req_parameter}
 
