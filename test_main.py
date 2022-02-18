@@ -50,9 +50,9 @@ def test_post_article():
     response = client.post("/article/",
     json={
   "title": "12sss3",
-  "description": "33",
+  "content": "33",
   "published": True,
-  "user_id": 1
+  "creator_id": 2
 
     },
     headers={
@@ -61,4 +61,4 @@ def test_post_article():
     )
 
     assert response.status_code == 200
-    # assert response.json().get("title") == "string"
+    # assert response.json().get("title") == "12sss3"
