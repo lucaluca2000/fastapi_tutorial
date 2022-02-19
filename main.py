@@ -1,3 +1,4 @@
+from urllib import response
 from fastapi.exceptions import HTTPException
 from fastapi import FastAPI, Request
 from exceptions import StoryException
@@ -8,7 +9,17 @@ from fastapi.responses import JSONResponse, PlainTextResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from templates import templates
+import time
 app = FastAPI()
+
+@app.middleware("http")
+async def add_middleware(request: Request,call_next):
+    start_time =  time.time()
+    # request
+    response = await call_next(request)
+    duration = time.time() - start_time
+    response.headers['duration'] = str(duration)
+    return response
 
 origins= [
     "http://localhost:8000",
