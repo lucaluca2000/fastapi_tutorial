@@ -7,7 +7,7 @@ from db import models,database
 from fastapi.responses import JSONResponse, PlainTextResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-
+from templates import templates
 app = FastAPI()
 
 origins= [
@@ -22,6 +22,7 @@ app.add_middleware(
     allow_methods = ["*"],
     allow_headers = ["*"],
 )
+app.include_router(templates.router)
 app.include_router(authentication.router)
 app.include_router(user.router)
 app.include_router(article.router)
@@ -48,3 +49,4 @@ models.Base.metadata.create_all(database.engine)
 
 
 app.mount('/files', StaticFiles(directory="files"), name='files')
+app.mount('/templates/static', StaticFiles(directory="templates/static"), name='static')

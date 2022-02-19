@@ -2,15 +2,22 @@ from typing import Optional, List
 from fastapi import APIRouter, Form, Header, Cookie
 from fastapi.responses import Response,HTMLResponse,PlainTextResponse
 from custom_log import log
+import time
 router = APIRouter(
     prefix='/product',
     tags=['product']
 )
 
 products=['watch', 'camera', 'phone']
-  
+
+async def time_consuming_functionality():
+    time.sleep(5)
+     
+    return "ok"
+
 @router.get('/all')
-def get_all_products():
+async def get_all_products():
+    await time_consuming_functionality()
     log("MyAPI", "Call to get all products")
     # return products
     data = " ".join(products)
